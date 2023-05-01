@@ -13,6 +13,10 @@ sed -i.bak "s/db_container/$CONTAINER_DB/g" ./project/.env
 CONTAINER_TEST_DB=$(docker-compose ps -q mysql-test | xargs docker inspect -f '{{ .Name }}' | cut -c2-)
 sed -i.bak "s/db_test_container/$CONTAINER_TEST_DB/g" ./project/phpunit.xml.dist
 
+# Replace DATABASE_TEST_URL value with container name
+CONTAINER_TEST_DB=$(docker-compose ps -q mysql-test | xargs docker inspect -f '{{ .Name }}' | cut -c2-)
+sed -i.bak "s/db_test_container/$CONTAINER_TEST_DB/g" ./project/.env.test
+
 # Running commands in the php container and outputting logs
 echo "Installing Composer Dependencies..."
 docker exec -it $(docker ps -qf "name=php") sh -c "composer install"
