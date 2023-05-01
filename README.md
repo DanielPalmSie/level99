@@ -5,6 +5,8 @@ It will start the project, install all dependencies, and at the end, you should 
 
 Once the project is running, you can begin testing the application.
 
+If the databases are not created, then create them manually in the containers, and restart the script
+
 ## Endpoint Calls
 
 The order of the endpoint calls is as follows:
