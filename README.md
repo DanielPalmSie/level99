@@ -4,8 +4,6 @@ To start the project, run the start.sh script which is in the root of the projec
 It will start the project, install all dependencies, and at the end, you should see in the logs that the project has been started successfully.
 
 
-If the databases are not created, then create them manually in the containers, and restart the script
-
 ## Endpoint Calls
 
 The order of the endpoint calls is as follows:
