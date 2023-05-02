@@ -21,7 +21,9 @@ services:
     tty: true
 
   mysql:
-    image: mysql
+    image: mysql:latest
+    restart: unless-stopped
+    container_name: mysql
     ports:
       - "3306:3306"
     environment:
@@ -30,22 +32,32 @@ services:
       MYSQL_PASSWORD: example_password
       MYSQL_ROOT_PASSWORD: root_password
     volumes:
-      - mysql-data:/var/lib/mysql
-    command: "--default-authentication-plugin=mysql_native_password"
+      - 'mysql:/var/lib/mysql'
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      retries: 3
+      timeout: 5s
 
   mysql-test:
-    image: mysql
-    ports:
-      - "3307:3306"
-    environment:
-      MYSQL_DATABASE: example_db_test
-      MYSQL_USER: example_user
-      MYSQL_PASSWORD: example_password
-      MYSQL_ROOT_PASSWORD: root_password
-    volumes:
-      - mysql-test-data:/var/lib/mysql
-    command: "--default-authentication-plugin=mysql_native_password"
+      image: mysql:latest
+      restart: unless-stopped
+      container_name: mysql-test
+      ports:
+        - "3307:3306"
+      environment:
+        MYSQL_DATABASE: example_db_test
+        MYSQL_USER: example_user
+        MYSQL_PASSWORD: example_password
+        MYSQL_ROOT_PASSWORD: root_password
+      volumes:
+        - 'mysql-test:/var/lib/mysql'
+      healthcheck:
+        test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+        retries: 3
+        timeout: 5s
 
 volumes:
-  mysql-data:
-  mysql-test-data:
+  mysql:
+    driver: local
+  mysql-test:
+    driver: local
