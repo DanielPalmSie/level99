@@ -26,9 +26,10 @@ class PlayoffService
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        TeamRepository $teamRepository,
-        PlayoffsRepository $playoffsRepository
-    ) {
+        TeamRepository         $teamRepository,
+        PlayoffsRepository     $playoffsRepository
+    )
+    {
         $this->entityManager = $entityManager;
         $this->teamRepository = $teamRepository;
         $this->playoffRepository = $playoffsRepository;
